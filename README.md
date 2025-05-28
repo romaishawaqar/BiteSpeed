@@ -1,3 +1,5 @@
+Deployed App Link :  https://bitespeed-zsky.onrender.com
+
 This project implements a contact deduplication and identification API. 
 It processes user contact information (email and phone number), clusters related contacts, and determines primary and secondary contact relationships using a PostgreSQL database.
 
