@@ -13,6 +13,7 @@ export const pool = new Pool({
   port: process.env.DB_PORT || 5432,
 });
 
+
 export const connectDB = async () => {
   try {
     await pool.connect();
@@ -20,5 +21,24 @@ export const connectDB = async () => {
   } catch (error) {
     console.error('Unable to connect to PostgreSQL:', error.message);
     process.exit(1);
+  }
+};
+
+export const initializeDB = async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS contact (
+        id SERIAL PRIMARY KEY,
+        phonenumber VARCHAR(20),
+        email VARCHAR(255),
+        linkedid INTEGER,
+        linkprecedence VARCHAR(20) CHECK (linkPrecedence IN ('primary', 'secondary')),
+        createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log("✅ Contacts table is ready.");
+  } catch (err) {
+    console.error("❌ Failed to initialize DB:", err);
   }
 };
